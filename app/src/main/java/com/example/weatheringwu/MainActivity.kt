@@ -1,36 +1,81 @@
 package com.example.weatheringwu
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
+import android.widget.SearchView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var editTextCitySearch: EditText
-    private lateinit var buttonSearch: Button
+    private lateinit var searchView: SearchView
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var cityAdapter: CityAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    private val apiService by lazy{
+        Retrofit.Builder().baseUrl("https://api.openweathermap.org/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(WeatherApiService::class.java)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        editTextCitySearch = findViewById(R.id.editTextCitySearch)
-        buttonSearch = findViewById(R.id.buttonSearch)
+        searchView = findViewById(R.id.searchView)
+        recyclerView = findViewById(R.id.recyclerView)
 
-        buttonSearch.setOnClickListener{
-            val city = editTextCitySearch.text.toString()
-            if(city.isNotEmpty()){
-                fetchWeatherForCity(city)
-            }else{
-                Toast.makeText(this, "Please enter the name of a city", Toast.LENGTH_SHORT).show()
+        setupRecyclerView()
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if (!query.isNullOrBlank()) {
+                    searchCities(query)
+                }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                // Implement if needed
+                return false
+            }
+        })
+    }
+
+    private fun setupRecyclerView(){
+        cityAdapter=CityAdapter(emptyList())
+        recyclerView.apply {
+            layoutManager = LinearLayoutManager(this@MainActivity)
+            adapter = cityAdapter
+        }
+    }
+
+    private fun searchCities(cityName: String){
+        CoroutineScope(Dispatchers.IO).launch{
+            try{
+                val apiKey = "49bdc31b415440304250deae9af0e13b"
+                val cities = apiService.searchCity(cityName, 1000, apiKey)
+                updateCityList(cities)
+            }catch (e: Exception){
+                e.printStackTrace()
             }
         }
     }
 
-    private fun fetchWeatherForCity(city: String){
-        //todo
+    private fun updateCityList(cities: List<CityInfo>){
+        CoroutineScope(Dispatchers.Main).launch{
+            cityAdapter = CityAdapter(cities)
+            recyclerView.adapter = cityAdapter
+            cityAdapter.notifyDataSetChanged()
+        }
     }
 }
 
 //Geocoding API for longitude and latitude: https://openweathermap.org/api/geocoding-api
-//Geocoding API for deatiled weather information: https://openweathermap.org/current
+//Geocoding API for detailed weather information: https://openweathermap.org/current
