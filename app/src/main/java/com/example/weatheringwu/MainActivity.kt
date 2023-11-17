@@ -1,6 +1,7 @@
 package com.example.weatheringwu
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -42,14 +43,13 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                // Implement if needed
                 return false
             }
         })
     }
 
     private fun setupRecyclerView(){
-        cityAdapter=CityAdapter(emptyList())
+        cityAdapter=CityAdapter(mutableListOf())
         recyclerView.apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
             adapter = cityAdapter
@@ -61,6 +61,7 @@ class MainActivity : AppCompatActivity() {
             try{
                 val apiKey = "49bdc31b415440304250deae9af0e13b"
                 val cities = apiService.searchCity(cityName, 1000, apiKey)
+                Log.d("API_RESPONSE", cities.toString())
                 updateCityList(cities)
             }catch (e: Exception){
                 e.printStackTrace()
@@ -69,10 +70,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateCityList(cities: List<CityInfo>){
-        CoroutineScope(Dispatchers.Main).launch{
-            cityAdapter = CityAdapter(cities)
-            recyclerView.adapter = cityAdapter
-            cityAdapter.notifyDataSetChanged()
+        runOnUiThread {
+            cityAdapter.updateData(cities);
         }
     }
 }
