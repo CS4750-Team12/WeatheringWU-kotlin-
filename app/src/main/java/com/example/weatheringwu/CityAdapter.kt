@@ -17,6 +17,7 @@ class CityAdapter(private val cities: MutableList<CityInfo>):RecyclerView.Adapte
     class CityViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val cityNameTextView: TextView = itemView.findViewById(R.id.cityNameTextView)
         val countryTextView: TextView = itemView.findViewById(R.id.countryTextView)
+        val locationTextView: TextView = itemView.findViewById(R.id.locationTextView)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CityViewHolder{
@@ -29,6 +30,8 @@ class CityAdapter(private val cities: MutableList<CityInfo>):RecyclerView.Adapte
         holder.cityNameTextView.text = city.name
         val location = "${city.country}, ${city.state}"
         holder.countryTextView.text = location
+        val coordinates = "Lat: ${city.lat}, Lon: ${city.lon}"
+        holder.locationTextView.text = coordinates
     }
 
     override fun getItemCount(): Int {
