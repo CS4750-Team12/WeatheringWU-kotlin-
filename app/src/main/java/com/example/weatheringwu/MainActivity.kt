@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
             try{
                 val apiKey = "49bdc31b415440304250deae9af0e13b"
                 val cities = apiService.searchCity(cityName, 1000, apiKey)
-                Log.d("API_RESPONSE", cities.toString())
+                Log.d("API Response: ", cities.toString())
                 updateCityList(cities)
             }catch (e: Exception){
                 e.printStackTrace()

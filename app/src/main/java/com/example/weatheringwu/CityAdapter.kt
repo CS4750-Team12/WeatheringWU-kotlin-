@@ -35,6 +35,7 @@ class CityAdapter(private val cities: MutableList<CityInfo>):RecyclerView.Adapte
     }
 
     override fun getItemCount(): Int {
+        Log.d("City List Size:", cities.size.toString())
         return cities.size
     }
 }
