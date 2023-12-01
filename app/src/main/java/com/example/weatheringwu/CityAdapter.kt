@@ -32,11 +32,25 @@ class CityAdapter(private val cities: MutableList<CityInfo>):RecyclerView.Adapte
         holder.countryTextView.text = location
         val coordinates = "Lat: ${city.lat}, Lon: ${city.lon}"
         holder.locationTextView.text = coordinates
+
+        holder.itemView.setOnClickListener{
+            listener?.onItemClick(city)
+        }
     }
 
     override fun getItemCount(): Int {
         Log.d("City List Size:", cities.size.toString())
         return cities.size
+    }
+
+    interface OnItemClickListener{
+        fun onItemClick(cityInfo:CityInfo)
+    }
+
+    private var listener: OnItemClickListener? = null
+
+    fun setOnItemClickListener(listener: OnItemClickListener){
+        this.listener = listener
     }
 }
 

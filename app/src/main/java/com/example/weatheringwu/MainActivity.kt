@@ -1,5 +1,6 @@
 package com.example.weatheringwu
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.SearchView
@@ -13,7 +14,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), CityAdapter.OnItemClickListener {
     private lateinit var searchView: SearchView
     private lateinit var recyclerView: RecyclerView
     private lateinit var cityAdapter: CityAdapter
@@ -46,6 +47,8 @@ class MainActivity : AppCompatActivity() {
                 return false
             }
         })
+
+        cityAdapter.setOnItemClickListener(this)
     }
 
     private fun setupRecyclerView(){
@@ -73,6 +76,13 @@ class MainActivity : AppCompatActivity() {
         runOnUiThread {
             cityAdapter.updateData(cities);
         }
+    }
+
+    override fun onItemClick(cityInfo: CityInfo){
+        val intent = Intent(this, WeatherActivity::class.java)
+        intent.putExtra("lat", cityInfo.lat)
+        intent.putExtra("lon", cityInfo.lon)
+        startActivity(intent)
     }
 }
 
