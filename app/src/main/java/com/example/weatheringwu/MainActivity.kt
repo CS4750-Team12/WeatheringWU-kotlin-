@@ -82,6 +82,9 @@ class MainActivity : AppCompatActivity(), CityAdapter.OnItemClickListener {
         val intent = Intent(this, WeatherActivity::class.java)
         intent.putExtra("lat", cityInfo.lat)
         intent.putExtra("lon", cityInfo.lon)
+        intent.putExtra("city", cityInfo.name)
+        intent.putExtra("country", cityInfo.country)
+        intent.putExtra("state", cityInfo.state)
         startActivity(intent)
     }
 }

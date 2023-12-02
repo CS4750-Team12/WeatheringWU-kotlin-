@@ -1,5 +1,6 @@
 package com.example.weatheringwu
 
+import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -10,4 +11,11 @@ interface WeatherApiService {
         @Query("limit") limit: Int,
         @Query("appid") apiKey:String
     ): List<CityInfo>
+
+    @GET("weather")
+    fun getWeatherData(
+        @Query("lat") latitude: Double,
+        @Query("lon") longitude: Double,
+        @Query("appid") apiKey: String
+    ): Call<WeatherResponse>
 }
