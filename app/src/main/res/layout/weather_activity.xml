@@ -3,60 +3,34 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/latitudeTextView"
+        android:id="@+id/coordsTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Latitude:"
         android:textSize="18sp"
         android:layout_marginTop="16dp"
-        android:layout_centerHorizontal="true" />
+        android:layout_marginLeft="10dp"
+        android:layout_alignParentStart="true" />
 
     <TextView
-        android:id="@+id/longitudeTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Longitude:"
-        android:textSize="18sp"
-        android:layout_below="@id/latitudeTextView"
-        android:layout_marginTop="16dp"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:id="@+id/nameTextView"
+        android:id="@+id/cityInfoTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="City:"
         android:textSize="18sp"
-        android:layout_below="@id/longitudeTextView"
+        android:layout_below="@id/coordsTextView"
         android:layout_marginTop="16dp"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:id="@+id/countryTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Country:"
-        android:textSize="18sp"
-        android:layout_below="@id/nameTextView"
-        android:layout_marginTop="16dp"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:id="@+id/stateTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="State:"
-        android:textSize="18sp"
-        android:layout_below="@id/countryTextView"
-        android:layout_marginTop="16dp"
-        android:layout_centerHorizontal="true" />
+        android:layout_marginLeft="10dp"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:id="@+id/weatherInfoTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/stateTextView"
+        android:layout_below="@id/cityInfoTextView"
+        android:textSize="18sp"
         android:layout_marginTop="16dp"
-        android:layout_centerHorizontal="true" />
+        android:layout_marginLeft="10dp"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

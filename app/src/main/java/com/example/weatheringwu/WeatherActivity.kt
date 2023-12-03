@@ -30,6 +30,20 @@ class WeatherActivity : AppCompatActivity() {
 
         val call = weatherApiService.getWeatherData(lat, lon, apiKey)
 
+        fun Double.round(d: Int): Double {
+            var multiplier = 1.0
+            repeat(d) { multiplier *= 10 }
+            return (kotlin.math.round(this * multiplier) / multiplier)
+        }
+
+        fun celsiusConvertion(k: Double): Double {
+            return (k - 273.15).round(3)
+        }
+
+        fun fahrenheitConvertion(k: Double): Double {
+            return ((k - 273.15) * (9 / 5) + 32).round(3)
+        }
+
         call.enqueue(object : Callback<WeatherResponse> {
             override fun onResponse(
                 call: Call<WeatherResponse>,
@@ -38,28 +52,35 @@ class WeatherActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     val weatherResponse = response.body()
                     Log.d("Weather Data: ", weatherResponse.toString())
-                    //todo
+                    val weatherInfo = weatherResponse?.weather?.get(0)
+                    val mainInfo = weatherResponse?.main
+
+                    runOnUiThread {
+                        if (mainInfo != null) {
+                            findViewById<TextView>(R.id.weatherInfoTextView).text =
+                                "Weather: ${weatherInfo?.description}" +
+                                        "\nTemperature: ${celsiusConvertion(mainInfo.temp)}℃ / ${fahrenheitConvertion(mainInfo.temp)}℉" +
+                                        "\nFeels Like: ${celsiusConvertion(mainInfo.feels_like)}℃ / ${fahrenheitConvertion(mainInfo.feels_like)}℉" +
+                                        "\nLowest Temperature: ${celsiusConvertion(mainInfo.temp_min)}℃ / ${fahrenheitConvertion(mainInfo.temp_min)}℉" +
+                                        "\nHighest Temperature: ${celsiusConvertion(mainInfo.temp_max)}℃ / ${fahrenheitConvertion(mainInfo.temp_max)}℉" +
+                                        "\nHumidity: ${mainInfo.humidity}%"
+                        }
+                    }
                 } else {
                     Log.e("Weather Data", "Unsuccessful response: ${response.message()}")
                 }
             }
-
             override fun onFailure(call: Call<WeatherResponse>, t: Throwable) {
                 Log.e("WeatherData", "onFailure: ${t.message}")
             }
         })
 
+        val coordsTextView: TextView = findViewById(R.id.coordsTextView)
+        val cityInfoTextView: TextView = findViewById(R.id.cityInfoTextView)
 
-        val latitudeTextView: TextView = findViewById(R.id.latitudeTextView)
-        val longitudeTextView: TextView = findViewById(R.id.longitudeTextView)
-        val nameTextView: TextView = findViewById(R.id.nameTextView)
-        val countryTextView: TextView = findViewById(R.id.countryTextView)
-        val stateTextView: TextView = findViewById(R.id.stateTextView)
-
-        latitudeTextView.text = "Latitude: $lat"
-        longitudeTextView.text = "Longitude: $lon"
-        nameTextView.text = "City: $city"
-        countryTextView.text = "Country: $country"
-        stateTextView.text = "State: $state"
+        coordsTextView.text = "Latitude: $lat \nLongitude: $lon"
+        cityInfoTextView.text = "City: $city \nCountry: $country \nState: $state"
     }
 }
+
+//℃ ℉
