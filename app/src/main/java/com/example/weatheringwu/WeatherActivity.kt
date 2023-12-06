@@ -9,7 +9,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-
+import io.github.cdimascio.dotenv.dotenv
 class WeatherActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,7 +21,11 @@ class WeatherActivity : AppCompatActivity() {
         val country = intent.getStringExtra("country")
         val state = intent.getStringExtra("state")
 
-        val apiKey = "49bdc31b415440304250deae9af0e13b"
+        val dotenv = dotenv {
+            directory = "./assets"
+            filename = "env"
+        }
+        val apiKey = dotenv["API_KEY"]
 
         val retrofit = Retrofit.Builder().baseUrl("https://api.openweathermap.org/data/2.5/")
             .addConverterFactory(GsonConverterFactory.create()).build()

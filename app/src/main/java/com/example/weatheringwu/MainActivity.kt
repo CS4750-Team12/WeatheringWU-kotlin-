@@ -7,6 +7,7 @@ import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import io.github.cdimascio.dotenv.dotenv
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -52,7 +53,7 @@ class MainActivity : AppCompatActivity(), CityAdapter.OnItemClickListener {
     }
 
     private fun setupRecyclerView(){
-        cityAdapter=CityAdapter(mutableListOf())
+        cityAdapter = CityAdapter(mutableListOf())
         recyclerView.apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
             adapter = cityAdapter
@@ -62,7 +63,11 @@ class MainActivity : AppCompatActivity(), CityAdapter.OnItemClickListener {
     private fun searchCities(cityName: String){
         CoroutineScope(Dispatchers.IO).launch{
             try{
-                val apiKey = "49bdc31b415440304250deae9af0e13b"
+                val dotenv = dotenv {
+                    directory = "./assets"
+                    filename = "env"
+                }
+                val apiKey = dotenv["API_KEY"]
                 val cities = apiService.searchCity(cityName, 1000, apiKey)
                 Log.d("API Response: ", cities.toString())
                 updateCityList(cities)
