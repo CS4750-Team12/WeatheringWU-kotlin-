@@ -2,35 +2,113 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:id="@+id/backgroundImageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:adjustViewBounds="true"
+        android:src="@drawable/night" />
+
     <TextView
-        android:id="@+id/coordsTextView"
+        android:id="@+id/cityTempInfoTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Latitude:"
-        android:textSize="18sp"
+        android:text=" "
+        android:textSize="85sp"
         android:layout_marginTop="16dp"
-        android:layout_marginLeft="10dp"
-        android:layout_alignParentStart="true" />
+        android:layout_marginLeft="15dp"
+        android:layout_alignParentStart="true"
+        android:textStyle="bold"
+        android:layout_marginStart="15dp"
+        android:textColor="@color/white"
+        />
+
+    <TextView
+        android:id="@+id/cityWeatherInfoTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" "
+        android:layout_below="@id/cityTempInfoTextView"
+        android:textSize="25sp"
+        android:layout_marginTop="1dp"
+        android:layout_marginLeft="15dp"
+        android:layout_alignParentStart="true"
+        android:textStyle="bold"
+        android:layout_marginStart="15dp"
+        android:textColor="@color/white"
+        />
 
     <TextView
         android:id="@+id/cityInfoTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="City:"
-        android:textSize="18sp"
-        android:layout_below="@id/coordsTextView"
-        android:layout_marginTop="16dp"
-        android:layout_marginLeft="10dp"
-        android:layout_alignParentStart="true" />
+        android:text=" "
+        android:textSize="25sp"
+        android:layout_below="@id/cityWeatherInfoTextView"
+        android:layout_marginTop="480dp"
+        android:layout_marginLeft="15dp"
+        android:layout_alignParentStart="true"
+        android:textStyle="bold"
+        android:layout_marginStart="15dp"
+        android:textColor="@color/white"
+        />
+
+    <TextView
+        android:id="@+id/cityInfoTextViewTwo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" "
+        android:textSize="15sp"
+        android:layout_below="@id/cityInfoTextView"
+        android:layout_marginTop="-5dp"
+        android:layout_marginLeft="15dp"
+        android:layout_alignParentStart="true"
+        android:textStyle="bold"
+        android:layout_marginStart="15dp"
+        android:textColor="@color/white"
+        />
+
+    <TextView
+        android:id="@+id/coordsTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cityInfoTextViewTwo"
+        android:text="Latitude:"
+        android:textSize="13sp"
+        android:layout_marginTop="-2dp"
+        android:layout_marginLeft="15dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="15dp"
+        android:textColor="@color/white"
+        />
 
     <TextView
         android:id="@+id/weatherInfoTextView"
+        android:text="Info:"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/cityInfoTextView"
+        android:layout_below="@id/coordsTextView"
         android:textSize="18sp"
-        android:layout_marginTop="16dp"
-        android:layout_marginLeft="10dp"
-        android:layout_alignParentStart="true" />
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="15dp"
+        android:textColor="@color/white"
+        />
+
+    <TextView
+        android:id="@+id/weatherInfoTextViewTwo"
+        android:text="Info:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/weatherInfoTextView"
+        android:textSize="18sp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="15dp"
+        android:textColor="@color/white"
+        />
 
 </RelativeLayout>

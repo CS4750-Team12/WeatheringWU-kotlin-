@@ -1,7 +1,9 @@
 package com.example.weatheringwu
 
+import android.icu.util.Calendar
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import retrofit2.Call
@@ -10,6 +12,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import io.github.cdimascio.dotenv.dotenv
+
 class WeatherActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,6 +23,17 @@ class WeatherActivity : AppCompatActivity() {
         val city = intent.getStringExtra("city")
         val country = intent.getStringExtra("country")
         val state = intent.getStringExtra("state")
+        val currentTime = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+        val backgroundImageView: ImageView = findViewById(R.id.backgroundImageView)
+        var currentTempUnit = 0
+
+        val imageResource = if (currentTime in 6..18) {
+            // Daytime (6 AM to 6 PM)
+            R.drawable.day
+        } else {
+            // Nighttime (6 PM to 5 AM)
+            R.drawable.night
+        }
 
         val dotenv = dotenv {
             directory = "./assets"
@@ -48,6 +62,13 @@ class WeatherActivity : AppCompatActivity() {
             return ((k - 273.15) * (9 / 5) + 32).round(3)
         }
 
+        fun getFormattedTemperature(temperature: Double?): String {
+            return when (currentTempUnit) {
+                0 -> "${temperature?.let { celsiusConvertion(it) }}℃"
+                1 -> "${temperature?.let { fahrenheitConvertion(it) }}℉"
+                else -> "" // Handle unexpected cases if any
+            }
+        }
         call.enqueue(object : Callback<WeatherResponse> {
             override fun onResponse(
                 call: Call<WeatherResponse>,
@@ -59,15 +80,29 @@ class WeatherActivity : AppCompatActivity() {
                     val weatherInfo = weatherResponse?.weather?.get(0)
                     val mainInfo = weatherResponse?.main
 
+                    var updateDescription = weatherInfo?.description
+                    updateDescription = updateDescription
+                        ?.split(' ')
+                        ?.joinToString(" ") { it.replaceFirstChar(Char::uppercaseChar) }
+
                     runOnUiThread {
                         if (mainInfo != null) {
-                            findViewById<TextView>(R.id.weatherInfoTextView).text =
-                                "Weather: ${weatherInfo?.description}" +
-                                        "\nTemperature: ${celsiusConvertion(mainInfo.temp)}℃ / ${fahrenheitConvertion(mainInfo.temp)}℉" +
-                                        "\nFeels Like: ${celsiusConvertion(mainInfo.feels_like)}℃ / ${fahrenheitConvertion(mainInfo.feels_like)}℉" +
-                                        "\nLowest Temperature: ${celsiusConvertion(mainInfo.temp_min)}℃ / ${fahrenheitConvertion(mainInfo.temp_min)}℉" +
-                                        "\nHighest Temperature: ${celsiusConvertion(mainInfo.temp_max)}℃ / ${fahrenheitConvertion(mainInfo.temp_max)}℉" +
-                                        "\nHumidity: ${mainInfo.humidity}%"
+                            val cityTempInfoTextView = findViewById<TextView>(R.id.cityTempInfoTextView)
+                            val weatherInfoTextView = findViewById<TextView>(R.id.weatherInfoTextView)
+                            val weatherInfoTextViewTwo = findViewById<TextView>(R.id.weatherInfoTextViewTwo)
+
+                            cityTempInfoTextView.text = getFormattedTemperature(mainInfo.temp)
+                            findViewById<TextView>(R.id.cityWeatherInfoTextView).text = 
+                                "${updateDescription}"
+
+                            weatherInfoTextView.text = "HighLow: (${getFormattedTemperature(mainInfo.temp_max)} / ${getFormattedTemperature(mainInfo.temp_min)})"
+                            weatherInfoTextViewTwo.text = "Humidity: ${mainInfo.humidity}%"
+
+                            cityTempInfoTextView.setOnClickListener {
+                                currentTempUnit = 1 - currentTempUnit
+                                cityTempInfoTextView.text = getFormattedTemperature(mainInfo.temp)
+                                weatherInfoTextView.text = "HighLow: (${getFormattedTemperature(mainInfo.temp_max)} / ${getFormattedTemperature(mainInfo.temp_min)})"
+                            }
                         }
                     }
                 } else {
@@ -81,9 +116,12 @@ class WeatherActivity : AppCompatActivity() {
 
         val coordsTextView: TextView = findViewById(R.id.coordsTextView)
         val cityInfoTextView: TextView = findViewById(R.id.cityInfoTextView)
+        val cityInfoTextView2: TextView = findViewById(R.id.cityInfoTextViewTwo)
 
-        coordsTextView.text = "Latitude: $lat \nLongitude: $lon"
-        cityInfoTextView.text = "City: $city \nCountry: $country \nState: $state"
+        coordsTextView.text = "($lat, $lon)"
+        cityInfoTextView.text = "$city"
+        cityInfoTextView2.text = "$country, $state"
+        backgroundImageView.setImageResource(imageResource)
     }
 }
 

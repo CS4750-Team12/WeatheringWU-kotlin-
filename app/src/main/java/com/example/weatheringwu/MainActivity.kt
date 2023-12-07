@@ -33,7 +33,6 @@ class MainActivity : AppCompatActivity(), CityAdapter.OnItemClickListener {
 
         searchView = findViewById(R.id.searchView)
         recyclerView = findViewById(R.id.recyclerView)
-
         setupRecyclerView()
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {

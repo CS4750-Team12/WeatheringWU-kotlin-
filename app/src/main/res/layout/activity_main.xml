@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
@@ -20,6 +21,7 @@
         android:closeIcon="@drawable/baseline_clear_24"
         android:searchIcon="@drawable/baseline_search_24"
         android:background="@drawable/search_bar"
+        android:textColorHint="#FFFFFF"
         />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -28,6 +30,7 @@
         android:layout_height="match_parent"
         android:layout_below="@id/searchView"
         android:layout_margin="16dp"
-        android:visibility="visible" />
+        android:visibility="visible"
+        />
 
 </RelativeLayout>
