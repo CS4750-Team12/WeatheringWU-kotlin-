@@ -6,6 +6,7 @@ data class WeatherResponse(
     val coord: Coord,
     val base: String,
     val visibility: Int,
+    val timezone: Int
 )
 
 data class WeatherInfo(

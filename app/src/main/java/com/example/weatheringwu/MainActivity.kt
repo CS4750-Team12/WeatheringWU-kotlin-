@@ -14,7 +14,6 @@ import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-
 class MainActivity : AppCompatActivity(), CityAdapter.OnItemClickListener {
     private lateinit var searchView: SearchView
     private lateinit var recyclerView: RecyclerView
@@ -37,17 +36,13 @@ class MainActivity : AppCompatActivity(), CityAdapter.OnItemClickListener {
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                if (!query.isNullOrBlank()) {
-                    searchCities(query)
-                }
+                if (!query.isNullOrBlank()) searchCities(query)
                 return true
             }
-
             override fun onQueryTextChange(newText: String?): Boolean {
                 return false
             }
         })
-
         cityAdapter.setOnItemClickListener(this)
     }
 

@@ -1,13 +1,13 @@
 package com.example.weatheringwu
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class CityAdapter(private val cities: MutableList<CityInfo>):RecyclerView.Adapter<CityAdapter.CityViewHolder>(){
+class CityAdapter(private val cities: MutableList<CityInfo>):
+    RecyclerView.Adapter<CityAdapter.CityViewHolder>(){
     fun updateData(newData: List<CityInfo>){
         cities.clear();
         cities.addAll(newData);
@@ -21,14 +21,21 @@ class CityAdapter(private val cities: MutableList<CityInfo>):RecyclerView.Adapte
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CityViewHolder{
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_city, parent, false)
+        val view =
+            LayoutInflater
+                .from(parent.context)
+                .inflate(R.layout.item_city, parent, false)
         return CityViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: CityViewHolder, position: Int) {
         val city = cities[position]
         holder.cityNameTextView.text = city.name
-        val location = "${city.country}, ${city.state}"
+        val location = if (city.state != null) {
+            "${city.country}, ${city.state}"
+        } else {
+            city.country
+        }
         holder.countryTextView.text = location
         val coordinates = "Lat: ${city.lat}, Lon: ${city.lon}"
         holder.locationTextView.text = coordinates
