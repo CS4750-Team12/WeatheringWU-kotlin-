@@ -20,9 +20,9 @@
         android:layout_marginLeft="15dp"
         android:layout_alignParentStart="true"
         android:textStyle="bold"
-        android:layout_marginStart="15dp"
         android:textColor="@color/white"
-        />
+        android:layout_marginStart="15dp"
+        android:contentDescription="Temperature information" />
 
     <TextView
         android:id="@+id/cityWeatherInfoTextView"
@@ -35,80 +35,79 @@
         android:layout_marginLeft="20dp"
         android:layout_alignParentStart="true"
         android:textStyle="bold"
-        android:layout_marginStart="20dp"
         android:textColor="@color/white"
-        />
+        android:layout_marginStart="20dp"
+        android:contentDescription="Weather information" />
 
+<!--        bottom area         -->
     <TextView
         android:id="@+id/cityInfoTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=" "
-        android:textSize="25sp"
-        android:layout_below="@id/cityWeatherInfoTextView"
-        android:layout_marginTop="480dp"
+        android:textSize="30sp"
+        android:layout_above="@id/cityInfoTextViewTwo"
+        android:layout_marginTop="16dp"
         android:layout_marginLeft="20dp"
         android:layout_alignParentStart="true"
         android:textStyle="bold"
-        android:layout_marginStart="20dp"
         android:textColor="@color/white"
-        />
+        android:contentDescription="City information" />
 
     <TextView
         android:id="@+id/cityInfoTextViewTwo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=" "
-        android:textSize="15sp"
-        android:layout_below="@id/cityInfoTextView"
-        android:layout_marginTop="-5dp"
+        android:textSize="25sp"
+        android:layout_above="@id/coordsTextView"
         android:layout_marginLeft="20dp"
         android:layout_alignParentStart="true"
         android:textStyle="bold"
-        android:layout_marginStart="20dp"
         android:textColor="@color/white"
-        />
+        android:contentDescription="City information 2" />
 
     <TextView
         android:id="@+id/coordsTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/cityInfoTextViewTwo"
+        android:layout_above="@id/weatherInfoTextView"
         android:text="Latitude:"
-        android:textSize="13sp"
-        android:layout_marginTop="-2dp"
+        android:textSize="15sp"
         android:layout_marginLeft="20dp"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="20dp"
+        android:textStyle="bold"
         android:textColor="@color/white"
-        />
+        android:contentDescription="Latitude information" />
 
     <TextView
         android:id="@+id/weatherInfoTextView"
         android:text="Info:"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/coordsTextView"
+        android:layout_above="@id/weatherInfoTextViewTwo"
         android:textSize="18sp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="20dp"
+        android:textStyle="bold"
         android:textColor="@color/white"
-        />
+        android:contentDescription="Weather info" />
 
     <TextView
         android:id="@+id/weatherInfoTextViewTwo"
         android:text="Info:"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/weatherInfoTextView"
+        android:layout_alignParentBottom="true"
         android:textSize="18sp"
-        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
         android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="20dp"
+        android:textStyle="bold"
         android:textColor="@color/white"
-        />
+        android:contentDescription="Weather info 2" />
 
 </RelativeLayout>
+
