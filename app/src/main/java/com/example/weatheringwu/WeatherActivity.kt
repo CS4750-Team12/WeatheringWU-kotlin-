@@ -39,12 +39,19 @@ class WeatherActivity : AppCompatActivity() {
             val timeZoneHours = timeZoneOffset / 3600
             val currentTimeWithOffset = (currTime + timeZoneHours) % 24
 
-            val imageResource = if (currentTimeWithOffset in 6..18) {
-                // Daytime (6 AM to 6 PM)
-                R.drawable.day
-            } else {
-                // Nighttime (6 PM to 5 AM)
-                R.drawable.night
+            val imageResource = when{
+                currentTimeWithOffset in 2..8->{
+                    R.drawable.dawn
+                }
+                currentTimeWithOffset in 9..14->{
+                    R.drawable.noon
+                }
+                currentTimeWithOffset in 15..18->{
+                    R.drawable.afternoon
+                }
+                else ->{
+                    R.drawable.night
+                }
             }
             backgroundImageView.setImageResource(imageResource)
         }
